@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VelaCut | 商品图一键生成营销视频</title>
+  <title>hidream | 商品图一键生成营销视频</title>
   <style>
     :root {
       --bg: #f7f1e8;
@@ -73,7 +73,7 @@
 
     .topbar {
       height: 72px;
-      padding: 0 clamp(18px, 4vw, 56px);
+      padding: 0 max(24px, calc((100vw - 1440px) / 2 + 32px));
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -142,21 +142,24 @@
     }
 
     .main {
-      padding: clamp(24px, 5vw, 64px);
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      padding: clamp(22px, 3vw, 42px) clamp(24px, 4vw, 48px) 48px;
       display: grid;
-      gap: 26px;
+      gap: 22px;
     }
 
     .hero {
-      min-height: calc(100vh - 150px);
       display: grid;
-      grid-template-columns: minmax(360px, 0.95fr) minmax(380px, 1.05fr);
-      align-items: center;
-      gap: clamp(28px, 5vw, 64px);
+      grid-template-columns: 1fr;
+      align-items: start;
+      gap: clamp(18px, 2.4vw, 28px);
     }
 
     .hero-copy {
-      max-width: 620px;
+      max-width: 920px;
+      margin: 0 auto;
+      text-align: center;
     }
 
     .eyebrow {
@@ -169,35 +172,37 @@
 
     h1 {
       margin: 0;
-      max-width: 610px;
+      max-width: 880px;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(44px, 6.4vw, 86px);
-      line-height: 0.96;
+      font-size: clamp(40px, 4.3vw, 66px);
+      line-height: 1.05;
       font-weight: 680;
       letter-spacing: 0;
     }
 
     .lead {
-      margin: 22px 0 0;
-      max-width: 540px;
+      margin: 14px auto 0;
+      max-width: 720px;
       color: var(--muted);
-      font-size: 18px;
-      line-height: 1.65;
+      font-size: 17px;
+      line-height: 1.62;
     }
 
     .hero-actions {
       display: flex;
       align-items: center;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     .trust-row {
       display: flex;
+      justify-content: center;
       flex-wrap: wrap;
       gap: 10px;
-      margin-top: 24px;
+      margin-top: 16px;
       color: var(--muted);
       font-size: 13px;
     }
@@ -214,8 +219,10 @@
     }
 
     .experience {
+      width: min(1180px, 100%);
+      margin: 0 auto;
       display: grid;
-      grid-template-columns: minmax(300px, 420px) minmax(300px, 1fr);
+      grid-template-columns: minmax(320px, 410px) minmax(560px, 1fr);
       gap: 18px;
       align-items: stretch;
     }
@@ -273,7 +280,7 @@
 
     .dropzone {
       position: relative;
-      min-height: 300px;
+      min-height: 230px;
       border: 1px dashed var(--line-strong);
       border-radius: var(--radius);
       overflow: hidden;
@@ -363,12 +370,13 @@
     .preview-card {
       padding: 18px;
       display: grid;
-      grid-template-columns: minmax(220px, 330px) 1fr;
+      grid-template-columns: minmax(240px, 300px) minmax(260px, 1fr);
       gap: 18px;
+      min-width: 0;
     }
 
     .phone {
-      width: min(100%, 320px);
+      width: min(100%, 270px);
       justify-self: center;
       border-radius: 28px;
       padding: 10px;
@@ -415,7 +423,7 @@
     .screen-copy strong {
       display: block;
       font-family: Georgia, "Times New Roman", serif;
-      font-size: 32px;
+      font-size: 28px;
       line-height: 1.05;
       font-weight: 680;
     }
@@ -468,7 +476,7 @@
       min-width: 0;
       display: grid;
       align-content: center;
-      gap: 16px;
+      gap: 14px;
     }
 
     .auto-list {
@@ -543,6 +551,8 @@
     }
 
     .journey {
+      width: min(1180px, 100%);
+      margin: 0 auto;
       padding: 18px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -572,6 +582,8 @@
     }
 
     .result-card {
+      width: min(1180px, 100%);
+      margin: 0 auto;
       padding: 18px;
       display: grid;
       gap: 14px;
@@ -614,14 +626,19 @@
     }
 
     @media (max-width: 1080px) {
-      .hero,
       .experience,
       .preview-card {
         grid-template-columns: 1fr;
       }
 
-      .hero {
-        min-height: auto;
+      .hero-copy {
+        text-align: left;
+        margin: 0;
+      }
+
+      .hero-actions,
+      .trust-row {
+        justify-content: flex-start;
       }
 
       .journey {
@@ -643,7 +660,7 @@
       }
 
       h1 {
-        font-size: 42px;
+        font-size: 40px;
       }
 
       .lead {
@@ -663,7 +680,7 @@
     <header class="topbar">
       <div class="brand">
         <div class="brand-mark">▶</div>
-        <span>VelaCut</span>
+        <span>hidream</span>
       </div>
       <div class="top-actions">
         <button class="link-btn" id="examplesBtn">看示例</button>
@@ -675,9 +692,9 @@
     <main class="main">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Product photo to premium ad video</p>
+          <p class="eyebrow">hidream product photo to premium ad video</p>
           <h1>一张商品图，生成一条有质感的营销短片。</h1>
-          <p class="lead">不用写脚本，不用调参数。上传商品图后，VelaCut 自动识别卖点、设计镜头、生成字幕和结尾行动引导，让普通商品图变成可投放的竖版视频。</p>
+          <p class="lead">不用写脚本，不用调参数。上传商品图后，hidream 自动识别卖点、设计镜头、生成字幕和结尾行动引导，让普通商品图变成可投放的竖版视频。</p>
           <div class="hero-actions">
             <button class="primary-btn" id="heroUploadBtn">上传商品图</button>
             <button class="soft-btn" id="demoBtn">用示例体验</button>
@@ -924,7 +941,7 @@
     document.getElementById("playBtn").addEventListener("click", () => toast(state.generated ? "正在播放生成预览。" : "生成完成后可播放完整视频。"));
     document.getElementById("downloadBtn").addEventListener("click", () => toast(state.generated ? "已准备下载模拟 MP4。" : "请先生成视频。"));
     document.getElementById("shareBtn").addEventListener("click", async () => {
-      await navigator.clipboard.writeText("https://velacut.example/share/demo").catch(() => {});
+      await navigator.clipboard.writeText("https://hidream.example/share/demo").catch(() => {});
       toast(state.generated ? "分享链接已复制。" : "生成后会复制真实作品链接。");
     });
     document.getElementById("variantBtn").addEventListener("click", () => {
