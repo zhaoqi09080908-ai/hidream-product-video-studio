@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VelaCut | 商品图一键生成营销视频</title>
+  <style>
+    :root {
+      --bg: #f7f1e8;
+      --paper: #fffaf2;
+      --ink: #191613;
+      --muted: #736a60;
+      --soft: #a79887;
+      --line: rgba(45, 35, 25, 0.13);
+      --line-strong: rgba(45, 35, 25, 0.2);
+      --gold: #b8842f;
+      --gold-soft: #f4dfb7;
+      --olive: #536b45;
+      --rose: #c96d58;
+      --plum: #5c4a62;
+      --cream: rgba(255, 250, 242, 0.78);
+      --shadow: 0 28px 80px rgba(52, 38, 25, 0.14);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        linear-gradient(135deg, rgba(184, 132, 47, 0.18), transparent 32%),
+        linear-gradient(315deg, rgba(83, 107, 69, 0.15), transparent 30%),
+        var(--bg);
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      color: inherit;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .topbar {
+      height: 72px;
+      padding: 0 clamp(18px, 4vw, 56px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.66);
+      backdrop-filter: blur(18px);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 820;
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: conic-gradient(from 160deg, var(--gold), var(--olive), var(--plum), var(--gold));
+      box-shadow: 0 10px 24px rgba(92, 74, 98, 0.2);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .link-btn,
+    .primary-btn,
+    .soft-btn {
+      min-height: 40px;
+      border-radius: var(--radius);
+      padding: 0 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .link-btn {
+      color: var(--muted);
+    }
+
+    .soft-btn {
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.74);
+    }
+
+    .primary-btn {
+      color: #fff;
+      background: linear-gradient(135deg, #1d1813, #5a4228);
+      box-shadow: 0 16px 34px rgba(55, 37, 20, 0.24);
+    }
+
+    .main {
+      padding: clamp(24px, 5vw, 64px);
+      display: grid;
+      gap: 26px;
+    }
+
+    .hero {
+      min-height: calc(100vh - 150px);
+      display: grid;
+      grid-template-columns: minmax(360px, 0.95fr) minmax(380px, 1.05fr);
+      align-items: center;
+      gap: clamp(28px, 5vw, 64px);
+    }
+
+    .hero-copy {
+      max-width: 620px;
+    }
+
+    .eyebrow {
+      margin: 0 0 18px;
+      color: var(--olive);
+      font-size: 13px;
+      font-weight: 820;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      margin: 0;
+      max-width: 610px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(44px, 6.4vw, 86px);
+      line-height: 0.96;
+      font-weight: 680;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      max-width: 540px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.65;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pill {
+      min-height: 32px;
+      padding: 0 12px;
+      border-radius: 99px;
+      border: 1px solid var(--line);
+      background: rgba(255, 250, 242, 0.58);
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .experience {
+      display: grid;
+      grid-template-columns: minmax(300px, 420px) minmax(300px, 1fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .upload-card,
+    .preview-card,
+    .result-card,
+    .journey {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--cream);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .upload-card {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+      align-content: start;
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+    }
+
+    .card-title {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 840;
+    }
+
+    .card-sub {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      min-height: 28px;
+      padding: 0 10px;
+      border-radius: 99px;
+      background: rgba(83, 107, 69, 0.1);
+      color: var(--olive);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 780;
+    }
+
+    .dropzone {
+      position: relative;
+      min-height: 300px;
+      border: 1px dashed var(--line-strong);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      background:
+        linear-gradient(180deg, rgba(255, 250, 242, 0.18), rgba(25, 22, 19, 0.38)),
+        url("https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=900&q=82") center / cover;
+      isolation: isolate;
+    }
+
+    .dropzone.drag {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(184, 132, 47, 0.16);
+    }
+
+    .product-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .drop-inner {
+      width: min(250px, calc(100% - 36px));
+      padding: 20px;
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.82);
+      box-shadow: 0 18px 46px rgba(20, 16, 12, 0.15);
+    }
+
+    .drop-inner strong {
+      display: block;
+      font-size: 18px;
+      line-height: 1.3;
+    }
+
+    .drop-inner span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .file-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .style-picks {
+      display: grid;
+      gap: 10px;
+    }
+
+    .style-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .style-chip {
+      min-height: 44px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.62);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .style-chip.active {
+      color: var(--ink);
+      border-color: rgba(184, 132, 47, 0.55);
+      background: var(--gold-soft);
+    }
+
+    .preview-card {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: minmax(220px, 330px) 1fr;
+      gap: 18px;
+    }
+
+    .phone {
+      width: min(100%, 320px);
+      justify-self: center;
+      border-radius: 28px;
+      padding: 10px;
+      background: #1d1813;
+      box-shadow: 0 28px 70px rgba(26, 19, 14, 0.28);
+    }
+
+    .screen {
+      aspect-ratio: 9 / 16;
+      border-radius: 22px;
+      overflow: hidden;
+      position: relative;
+      background:
+        linear-gradient(180deg, transparent 10%, rgba(0, 0, 0, 0.74)),
+        url("https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=82") center / cover;
+    }
+
+    .screen.uploaded {
+      background-image: linear-gradient(180deg, transparent 10%, rgba(0, 0, 0, 0.74));
+    }
+
+    .screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .safe-area {
+      position: absolute;
+      inset: 24px 22px 50px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      pointer-events: none;
+    }
+
+    .screen-copy {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      bottom: 70px;
+      color: #fff;
+      text-shadow: 0 4px 18px rgba(0, 0, 0, 0.34);
+    }
+
+    .screen-copy strong {
+      display: block;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 32px;
+      line-height: 1.05;
+      font-weight: 680;
+    }
+
+    .screen-copy span {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .player {
+      height: 48px;
+      padding: 0 14px;
+      display: grid;
+      grid-template-columns: 32px 1fr 38px;
+      gap: 10px;
+      align-items: center;
+      color: #f7efe2;
+    }
+
+    .play {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #f7efe2;
+      color: #1d1813;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .scrub {
+      height: 5px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+    }
+
+    .scrub span {
+      display: block;
+      height: 100%;
+      width: 38%;
+      background: linear-gradient(90deg, var(--gold), #fff4cf);
+      transition: width 240ms ease;
+    }
+
+    .auto-panel {
+      min-width: 0;
+      display: grid;
+      align-content: center;
+      gap: 16px;
+    }
+
+    .auto-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .auto-item {
+      min-height: 58px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.62);
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .auto-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--olive);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .auto-item strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .auto-item span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .progress-wrap {
+      display: grid;
+      gap: 9px;
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 760;
+    }
+
+    .progressbar {
+      height: 8px;
+      border-radius: 99px;
+      background: rgba(45, 35, 25, 0.11);
+      overflow: hidden;
+    }
+
+    .progressbar span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--rose), var(--gold), var(--olive));
+      transition: width 260ms ease;
+    }
+
+    .journey {
+      padding: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      box-shadow: none;
+    }
+
+    .journey-step {
+      min-height: 112px;
+      padding: 14px;
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.58);
+      border: 1px solid var(--line);
+    }
+
+    .journey-step strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .journey-step span {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .result-card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .result-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .result-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      max-width: 360px;
+      padding: 13px 15px;
+      border-radius: var(--radius);
+      color: #fff;
+      background: #211b15;
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.24);
+      font-size: 14px;
+      transform: translateY(18px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 20;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .experience,
+      .preview-card {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+      }
+
+      .journey {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        padding: 0 16px;
+      }
+
+      .link-btn {
+        display: none;
+      }
+
+      .main {
+        padding: 20px 16px 28px;
+      }
+
+      h1 {
+        font-size: 42px;
+      }
+
+      .lead {
+        font-size: 16px;
+      }
+
+      .style-grid,
+      .journey,
+      .result-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">▶</div>
+        <span>VelaCut</span>
+      </div>
+      <div class="top-actions">
+        <button class="link-btn" id="examplesBtn">看示例</button>
+        <button class="soft-btn" id="historyBtn">我的作品</button>
+        <button class="primary-btn" id="topCreateBtn">立即生成</button>
+      </div>
+    </header>
+
+    <main class="main">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Product photo to premium ad video</p>
+          <h1>一张商品图，生成一条有质感的营销短片。</h1>
+          <p class="lead">不用写脚本，不用调参数。上传商品图后，VelaCut 自动识别卖点、设计镜头、生成字幕和结尾行动引导，让普通商品图变成可投放的竖版视频。</p>
+          <div class="hero-actions">
+            <button class="primary-btn" id="heroUploadBtn">上传商品图</button>
+            <button class="soft-btn" id="demoBtn">用示例体验</button>
+          </div>
+          <div class="trust-row">
+            <span class="pill">15 秒成片</span>
+            <span class="pill">9:16 竖版</span>
+            <span class="pill">自动脚本</span>
+            <span class="pill">商品尾帧校验</span>
+          </div>
+        </div>
+
+        <div class="experience" id="create">
+          <section class="upload-card">
+            <div class="card-top">
+              <div>
+                <h2 class="card-title">把商品放进来</h2>
+                <p class="card-sub">只需要一张图，其余交给生成流程。</p>
+              </div>
+              <span class="badge" id="uploadBadge">未上传</span>
+            </div>
+
+            <label class="dropzone" id="dropzone">
+              <img class="product-img" id="productImage" alt="商品图预览" hidden />
+              <input class="file-input" id="fileInput" type="file" accept="image/*" />
+              <span class="drop-inner">
+                <strong>点击或拖拽商品图</strong>
+                <span>包装、餐品、美妆、服饰、家居都可以。我们会自动生成卖点和视频脚本。</span>
+              </span>
+            </label>
+
+            <div class="style-picks">
+              <div class="card-sub">选择一个气质，其他无需填写</div>
+              <div class="style-grid" id="styleGrid">
+                <button class="style-chip active" data-style="高级质感">高级质感</button>
+                <button class="style-chip" data-style="种草安利">种草安利</button>
+                <button class="style-chip" data-style="限时转化">限时转化</button>
+                <button class="style-chip" data-style="剧情反转">剧情反转</button>
+              </div>
+            </div>
+
+            <button class="primary-btn" id="generateBtn">生成我的营销视频</button>
+          </section>
+
+          <section class="preview-card">
+            <div class="phone">
+              <div class="screen" id="screen">
+                <img id="previewImage" alt="视频预览商品图" hidden />
+                <div class="safe-area"></div>
+                <div class="screen-copy">
+                  <strong id="headline">让商品第一眼就有想买的理由。</strong>
+                  <span id="subline">上传后自动生成镜头与字幕</span>
+                </div>
+              </div>
+              <div class="player">
+                <button class="play" id="playBtn">▶</button>
+                <div class="scrub"><span id="scrubFill"></span></div>
+                <span id="timeLabel">0:00</span>
+              </div>
+            </div>
+
+            <div class="auto-panel">
+              <div>
+                <h2 class="card-title">自动完成中间步骤</h2>
+                <p class="card-sub">C 端用户不需要理解分镜、卖点和 CTA。系统只把关键结果展示出来。</p>
+              </div>
+              <div class="auto-list">
+                <div class="auto-item">
+                  <div class="auto-icon">1</div>
+                  <div><strong>识别商品气质</strong><span id="autoProduct">等待商品图，识别品类、外观和可见卖点。</span></div>
+                </div>
+                <div class="auto-item">
+                  <div class="auto-icon">2</div>
+                  <div><strong>生成短片故事</strong><span id="autoStory">自动选择钩子、镜头节奏、字幕和音乐方向。</span></div>
+                </div>
+                <div class="auto-item">
+                  <div class="auto-icon">3</div>
+                  <div><strong>校验可投放感</strong><span id="autoCheck">确保商品露出、字幕安全区和结尾行动引导。</span></div>
+                </div>
+              </div>
+              <div class="progress-wrap">
+                <div class="progress-top">
+                  <span id="progressLabel">等待开始</span>
+                  <span id="progressNumber">0%</span>
+                </div>
+                <div class="progressbar"><span id="progressFill"></span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="journey">
+        <div class="journey-step"><strong>上传</strong><span>用户只提供商品图，不需要先填商品名或卖点。</span></div>
+        <div class="journey-step"><strong>理解</strong><span>系统自动识别品类、使用场景、视觉记忆点和购买阻力。</span></div>
+        <div class="journey-step"><strong>生成</strong><span>自动写脚本、定镜头、配字幕、做 9:16 竖版视频。</span></div>
+        <div class="journey-step"><strong>交付</strong><span>输出可下载、可分享、可继续生成同款变体的作品。</span></div>
+      </section>
+
+      <section class="result-card">
+        <div class="result-head">
+          <div>
+            <h2 class="card-title">作品交付</h2>
+            <p class="card-sub" id="resultText">生成完成后，这里会出现下载、分享和生成同款变体。</p>
+          </div>
+          <span class="badge" id="resultBadge">未生成</span>
+        </div>
+        <div class="result-actions">
+          <button class="soft-btn" id="downloadBtn">下载 MP4</button>
+          <button class="soft-btn" id="shareBtn">复制分享链接</button>
+          <button class="soft-btn" id="variantBtn">生成同款变体</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const state = {
+      uploaded: false,
+      generated: false,
+      generating: false,
+      progress: 0,
+      style: "高级质感",
+      imageUrl: "",
+      timer: null
+    };
+
+    const els = {
+      fileInput: document.getElementById("fileInput"),
+      dropzone: document.getElementById("dropzone"),
+      productImage: document.getElementById("productImage"),
+      previewImage: document.getElementById("previewImage"),
+      screen: document.getElementById("screen"),
+      uploadBadge: document.getElementById("uploadBadge"),
+      headline: document.getElementById("headline"),
+      subline: document.getElementById("subline"),
+      autoProduct: document.getElementById("autoProduct"),
+      autoStory: document.getElementById("autoStory"),
+      autoCheck: document.getElementById("autoCheck"),
+      progressLabel: document.getElementById("progressLabel"),
+      progressNumber: document.getElementById("progressNumber"),
+      progressFill: document.getElementById("progressFill"),
+      scrubFill: document.getElementById("scrubFill"),
+      timeLabel: document.getElementById("timeLabel"),
+      resultBadge: document.getElementById("resultBadge"),
+      resultText: document.getElementById("resultText"),
+      toast: document.getElementById("toast")
+    };
+
+    function toast(message) {
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(els.toastTimer);
+      els.toastTimer = setTimeout(() => els.toast.classList.remove("show"), 2400);
+    }
+
+    function scrollToCreate() {
+      document.getElementById("create").scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+
+    function useImage(url, uploadedMessage) {
+      state.uploaded = true;
+      state.imageUrl = url;
+      els.productImage.src = url;
+      els.previewImage.src = url;
+      els.productImage.hidden = false;
+      els.previewImage.hidden = false;
+      els.screen.classList.add("uploaded");
+      els.uploadBadge.textContent = "已上传";
+      els.headline.textContent = "把普通商品图，变成高级短片开场。";
+      els.subline.textContent = `${state.style} · 15 秒竖版`;
+      els.autoProduct.textContent = "已识别商品主体、画面质感和可用于镜头的视觉记忆点。";
+      els.autoStory.textContent = `将按“${state.style}”生成钩子、字幕、音乐和商品尾帧。`;
+      els.autoCheck.textContent = "准备检查商品露出、字幕安全区和结尾转化动作。";
+      toast(uploadedMessage);
+    }
+
+    function handleFile(file) {
+      if (!file) return;
+      useImage(URL.createObjectURL(file), "商品图已读取，可以一键生成。");
+    }
+
+    function setProgress(value, label) {
+      state.progress = Math.min(100, value);
+      els.progressFill.style.width = `${state.progress}%`;
+      els.scrubFill.style.width = `${Math.max(38, state.progress)}%`;
+      els.progressNumber.textContent = `${state.progress}%`;
+      els.progressLabel.textContent = label;
+    }
+
+    function generate() {
+      if (state.generating) return;
+      if (!state.uploaded) {
+        useDemo();
+        toast("已先放入示例商品图，你也可以替换成自己的商品。");
+      }
+      state.generating = true;
+      state.generated = false;
+      setProgress(8, "正在理解商品图");
+      els.resultBadge.textContent = "生成中";
+      els.resultText.textContent = "正在生成一条适合 C 端分享和投放的竖版营销短片。";
+      els.headline.textContent = "正在为商品寻找最动人的购买理由。";
+      els.subline.textContent = "AI 正在生成镜头、字幕与结尾 CTA";
+      clearInterval(state.timer);
+      state.timer = setInterval(() => {
+        const next = state.progress + Math.ceil(Math.random() * 13);
+        const label = next < 35 ? "正在提炼卖点" : next < 68 ? "正在生成镜头和字幕" : next < 96 ? "正在校验商品尾帧" : "正在完成作品";
+        setProgress(next, label);
+        if (state.progress >= 100) finish();
+      }, 520);
+    }
+
+    function finish() {
+      clearInterval(state.timer);
+      state.generating = false;
+      state.generated = true;
+      setProgress(100, "视频已生成");
+      els.timeLabel.textContent = "0:15";
+      els.resultBadge.textContent = "已生成";
+      els.resultText.textContent = "你的营销短片已就绪，可以下载、分享，或继续生成同款变体。";
+      els.headline.textContent = state.style === "限时转化" ? "错过这一刻，可能就少一次下单。" : "第一眼的质感，就是下单的理由。";
+      els.subline.textContent = `${state.style} · 商品尾帧已校验`;
+      toast("营销视频已生成。");
+    }
+
+    function useDemo() {
+      useImage("https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=82", "示例商品已载入。");
+    }
+
+    document.getElementById("topCreateBtn").addEventListener("click", scrollToCreate);
+    document.getElementById("heroUploadBtn").addEventListener("click", () => {
+      scrollToCreate();
+      setTimeout(() => els.fileInput.click(), 360);
+    });
+    document.getElementById("demoBtn").addEventListener("click", () => {
+      scrollToCreate();
+      useDemo();
+    });
+    document.getElementById("examplesBtn").addEventListener("click", () => toast("示例库会展示美妆、餐饮、服饰和家居短片。"));
+    document.getElementById("historyBtn").addEventListener("click", () => toast("作品库已预留，后续可接账号系统。"));
+    document.getElementById("generateBtn").addEventListener("click", generate);
+    document.getElementById("playBtn").addEventListener("click", () => toast(state.generated ? "正在播放生成预览。" : "生成完成后可播放完整视频。"));
+    document.getElementById("downloadBtn").addEventListener("click", () => toast(state.generated ? "已准备下载模拟 MP4。" : "请先生成视频。"));
+    document.getElementById("shareBtn").addEventListener("click", async () => {
+      await navigator.clipboard.writeText("https://velacut.example/share/demo").catch(() => {});
+      toast(state.generated ? "分享链接已复制。" : "生成后会复制真实作品链接。");
+    });
+    document.getElementById("variantBtn").addEventListener("click", () => {
+      if (!state.generated) {
+        toast("请先生成第一条视频。");
+        return;
+      }
+      state.style = state.style === "高级质感" ? "种草安利" : "高级质感";
+      document.querySelectorAll(".style-chip").forEach(chip => chip.classList.toggle("active", chip.dataset.style === state.style));
+      generate();
+    });
+
+    document.getElementById("styleGrid").addEventListener("click", event => {
+      const chip = event.target.closest("[data-style]");
+      if (!chip) return;
+      state.style = chip.dataset.style;
+      document.querySelectorAll(".style-chip").forEach(item => item.classList.toggle("active", item === chip));
+      els.subline.textContent = `${state.style} · 15 秒竖版`;
+      els.autoStory.textContent = `将按“${state.style}”生成钩子、字幕、音乐和商品尾帧。`;
+    });
+
+    els.fileInput.addEventListener("change", event => handleFile(event.target.files[0]));
+    els.dropzone.addEventListener("dragover", event => {
+      event.preventDefault();
+      els.dropzone.classList.add("drag");
+    });
+    els.dropzone.addEventListener("dragleave", () => els.dropzone.classList.remove("drag"));
+    els.dropzone.addEventListener("drop", event => {
+      event.preventDefault();
+      els.dropzone.classList.remove("drag");
+      handleFile(event.dataTransfer.files[0]);
+    });
+  </script>
+</body>
+</html>
