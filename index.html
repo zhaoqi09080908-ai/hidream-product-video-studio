@@ -65,6 +65,11 @@
       max-width: 100%;
     }
 
+    video {
+      display: block;
+      max-width: 100%;
+    }
+
     .app {
       min-height: 100vh;
       display: grid;
@@ -94,15 +99,11 @@
       font-weight: 820;
     }
 
-    .brand-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: grid;
-      place-items: center;
-      color: #fff;
-      background: conic-gradient(from 160deg, var(--gold), var(--olive), var(--plum), var(--gold));
-      box-shadow: 0 10px 24px rgba(92, 74, 98, 0.2);
+    .brand-logo {
+      width: 174px;
+      height: auto;
+      border-radius: var(--radius);
+      box-shadow: 0 12px 28px rgba(15, 20, 28, 0.12);
     }
 
     .top-actions {
@@ -521,6 +522,26 @@
       line-height: 1.35;
     }
 
+    .auto-item.active {
+      border-color: rgba(32, 149, 255, 0.4);
+      background: rgba(32, 149, 255, 0.08);
+    }
+
+    .skill-chip {
+      width: fit-content;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 99px;
+      border: 1px solid rgba(32, 149, 255, 0.28);
+      background: rgba(32, 149, 255, 0.09);
+      color: #176db8;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: 780;
+    }
+
     .progress-wrap {
       display: grid;
       gap: 9px;
@@ -587,6 +608,46 @@
       padding: 18px;
       display: grid;
       gap: 14px;
+    }
+
+    .result-video-wrap {
+      display: none;
+      grid-template-columns: minmax(220px, 360px) 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.62);
+    }
+
+    .result-card.ready .result-video-wrap {
+      display: grid;
+    }
+
+    .result-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius);
+      background: #12100e;
+      object-fit: cover;
+      box-shadow: 0 18px 42px rgba(26, 19, 14, 0.18);
+    }
+
+    .result-video-copy {
+      display: grid;
+      gap: 9px;
+    }
+
+    .result-video-copy strong {
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .result-video-copy span {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .result-head {
@@ -669,8 +730,13 @@
 
       .style-grid,
       .journey,
-      .result-actions {
+      .result-actions,
+      .result-video-wrap {
         grid-template-columns: 1fr;
+      }
+
+      .brand-logo {
+        width: 136px;
       }
     }
   </style>
@@ -679,8 +745,7 @@
   <div class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="brand-mark">▶</div>
-        <span>hidream</span>
+        <img class="brand-logo" src="assets/hidream-logo.svg" alt="智象未来 HiDream.ai" />
       </div>
       <div class="top-actions">
         <button class="link-btn" id="examplesBtn">看示例</button>
@@ -761,6 +826,7 @@
                 <h2 class="card-title">自动完成中间步骤</h2>
                 <p class="card-sub">C 端用户不需要理解分镜、卖点和 CTA。系统只把关键结果展示出来。</p>
               </div>
+              <div class="skill-chip" id="skillChip">营销带货 skill · 待调用</div>
               <div class="auto-list">
                 <div class="auto-item">
                   <div class="auto-icon">1</div>
@@ -773,6 +839,10 @@
                 <div class="auto-item">
                   <div class="auto-icon">3</div>
                   <div><strong>校验可投放感</strong><span id="autoCheck">确保商品露出、字幕安全区和结尾行动引导。</span></div>
+                </div>
+                <div class="auto-item" id="skillStep">
+                  <div class="auto-icon">4</div>
+                  <div><strong>调用营销带货 skill</strong><span id="autoSkill">等待生成后，调用脚本、视频生成和尾帧验收链路。</span></div>
                 </div>
               </div>
               <div class="progress-wrap">
@@ -794,13 +864,23 @@
         <div class="journey-step"><strong>交付</strong><span>输出可下载、可分享、可继续生成同款变体的作品。</span></div>
       </section>
 
-      <section class="result-card">
+      <section class="result-card" id="resultCard">
         <div class="result-head">
           <div>
             <h2 class="card-title">作品交付</h2>
-            <p class="card-sub" id="resultText">生成完成后，这里会出现下载、分享和生成同款变体。</p>
+            <p class="card-sub" id="resultText">生成完成后，这里会直接加载视频预览，并提供下载、分享和同款变体。</p>
           </div>
           <span class="badge" id="resultBadge">未生成</span>
+        </div>
+        <div class="result-video-wrap" id="resultVideoWrap">
+          <video class="result-video" id="resultVideo" controls playsinline preload="metadata" poster="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=82">
+            <source id="resultVideoSource" src="" type="video/mp4" />
+          </video>
+          <div class="result-video-copy">
+            <strong>预览视频已加载</strong>
+            <span>主流 Web 端生成产品会在结果区直接呈现可播放视频。这里保留播放器控件，用户可以先看结果，再下载或生成同款变体。</span>
+            <span id="resultMeta">营销带货 skill 输出 · 商品尾帧已验收</span>
+          </div>
         </div>
         <div class="result-actions">
           <button class="soft-btn" id="downloadBtn">下载 MP4</button>
@@ -836,15 +916,23 @@
       autoProduct: document.getElementById("autoProduct"),
       autoStory: document.getElementById("autoStory"),
       autoCheck: document.getElementById("autoCheck"),
+      autoSkill: document.getElementById("autoSkill"),
+      skillChip: document.getElementById("skillChip"),
+      skillStep: document.getElementById("skillStep"),
       progressLabel: document.getElementById("progressLabel"),
       progressNumber: document.getElementById("progressNumber"),
       progressFill: document.getElementById("progressFill"),
       scrubFill: document.getElementById("scrubFill"),
       timeLabel: document.getElementById("timeLabel"),
+      resultCard: document.getElementById("resultCard"),
       resultBadge: document.getElementById("resultBadge"),
       resultText: document.getElementById("resultText"),
+      resultVideo: document.getElementById("resultVideo"),
+      resultVideoSource: document.getElementById("resultVideoSource"),
       toast: document.getElementById("toast")
     };
+
+    const previewVideoUrl = "assets/preview-video.mp4";
 
     function toast(message) {
       els.toast.textContent = message;
@@ -871,6 +959,8 @@
       els.autoProduct.textContent = "已识别商品主体、画面质感和可用于镜头的视觉记忆点。";
       els.autoStory.textContent = `将按“${state.style}”生成钩子、字幕、音乐和商品尾帧。`;
       els.autoCheck.textContent = "准备检查商品露出、字幕安全区和结尾转化动作。";
+      els.autoSkill.textContent = "营销带货 skill 已准备接收商品图和风格偏好。";
+      els.skillChip.textContent = "营销带货 skill · 已就绪";
       toast(uploadedMessage);
     }
 
@@ -896,14 +986,21 @@
       state.generating = true;
       state.generated = false;
       setProgress(8, "正在理解商品图");
+      els.resultCard.classList.remove("ready");
+      els.resultVideo.pause();
+      els.resultVideoSource.src = "";
+      els.resultVideo.load();
+      els.skillStep.classList.add("active");
+      els.skillChip.textContent = "营销带货 skill · 调用中";
+      els.autoSkill.textContent = "正在调用营销带货 skill：商品理解、卖点转化、脚本生成、视频生成与尾帧验收。";
       els.resultBadge.textContent = "生成中";
-      els.resultText.textContent = "正在生成一条适合 C 端分享和投放的竖版营销短片。";
+      els.resultText.textContent = "正在调用营销带货 skill 生成可预览的视频结果。";
       els.headline.textContent = "正在为商品寻找最动人的购买理由。";
       els.subline.textContent = "AI 正在生成镜头、字幕与结尾 CTA";
       clearInterval(state.timer);
       state.timer = setInterval(() => {
         const next = state.progress + Math.ceil(Math.random() * 13);
-        const label = next < 35 ? "正在提炼卖点" : next < 68 ? "正在生成镜头和字幕" : next < 96 ? "正在校验商品尾帧" : "正在完成作品";
+        const label = next < 30 ? "正在提炼卖点" : next < 58 ? "营销带货 skill 正在生成脚本" : next < 82 ? "Hidream 多模态生成视频" : next < 96 ? "正在校验商品尾帧" : "正在加载预览视频";
         setProgress(next, label);
         if (state.progress >= 100) finish();
       }, 520);
@@ -916,7 +1013,13 @@
       setProgress(100, "视频已生成");
       els.timeLabel.textContent = "0:15";
       els.resultBadge.textContent = "已生成";
-      els.resultText.textContent = "你的营销短片已就绪，可以下载、分享，或继续生成同款变体。";
+      els.resultText.textContent = "你的营销短片已就绪，结果区已直接加载视频预览。";
+      els.resultCard.classList.add("ready");
+      els.resultVideoSource.src = previewVideoUrl;
+      els.resultVideo.load();
+      els.resultVideo.play().catch(() => {});
+      els.skillChip.textContent = "营销带货 skill · 已完成";
+      els.autoSkill.textContent = "营销带货 skill 已完成脚本生成、视频生成和尾帧验收，结果视频已加载。";
       els.headline.textContent = state.style === "限时转化" ? "错过这一刻，可能就少一次下单。" : "第一眼的质感，就是下单的理由。";
       els.subline.textContent = `${state.style} · 商品尾帧已校验`;
       toast("营销视频已生成。");

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="76" viewBox="0 0 260 76" role="img" aria-label="智象未来 HiDream.ai">
+  <rect width="260" height="76" rx="8" fill="#050505"/>
+  <rect x="18" y="10" width="58" height="58" rx="15" fill="#2095ff"/>
+  <rect x="31" y="27" width="8" height="28" rx="4" fill="#ffffff"/>
+  <rect x="44" y="19" width="9" height="36" rx="4.5" fill="#ffffff"/>
+  <circle cx="62" cy="41" r="7" fill="#ffffff"/>
+  <text x="88" y="34" fill="#ffffff" font-family="PingFang SC, Microsoft YaHei, Arial, sans-serif" font-size="23" font-weight="700">智象未来</text>
+  <text x="88" y="59" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="500">HiDream.ai</text>
+</svg>
