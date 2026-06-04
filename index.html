@@ -102,8 +102,6 @@
     .brand-logo {
       width: 174px;
       height: auto;
-      border-radius: var(--radius);
-      box-shadow: 0 12px 28px rgba(15, 20, 28, 0.12);
     }
 
     .top-actions {
@@ -748,7 +746,7 @@
         <img class="brand-logo" src="assets/hidream-logo.svg" alt="智象未来 HiDream.ai" />
       </div>
       <div class="top-actions">
-        <button class="link-btn" id="examplesBtn">看示例</button>
+        <button class="link-btn" id="examplesBtn">案例灵感</button>
         <button class="soft-btn" id="historyBtn">我的作品</button>
         <button class="primary-btn" id="topCreateBtn">立即生成</button>
       </div>
@@ -757,9 +755,9 @@
     <main class="main">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">hidream product photo to premium ad video</p>
-          <h1>一张商品图，生成一条有质感的营销短片。</h1>
-          <p class="lead">不用写脚本，不用调参数。上传商品图后，hidream 自动识别卖点、设计镜头、生成字幕和结尾行动引导，让普通商品图变成可投放的竖版视频。</p>
+          <p class="eyebrow">HiDream.ai product video studio</p>
+          <h1>上传一张商品图，生成可投放的商品视频。</h1>
+          <p class="lead">HiDream.ai 自动完成商品理解、内容结构、镜头规划与结果预览，帮助商品图快速转化为适合短视频场景的竖版视频。</p>
           <div class="hero-actions">
             <button class="primary-btn" id="heroUploadBtn">上传商品图</button>
             <button class="soft-btn" id="demoBtn">用示例体验</button>
@@ -767,8 +765,8 @@
           <div class="trust-row">
             <span class="pill">15 秒成片</span>
             <span class="pill">9:16 竖版</span>
-            <span class="pill">自动脚本</span>
-            <span class="pill">商品尾帧校验</span>
+            <span class="pill">自动成片</span>
+            <span class="pill">结果可预览</span>
           </div>
         </div>
 
@@ -776,8 +774,8 @@
           <section class="upload-card">
             <div class="card-top">
               <div>
-                <h2 class="card-title">把商品放进来</h2>
-                <p class="card-sub">只需要一张图，其余交给生成流程。</p>
+                <h2 class="card-title">上传商品图</h2>
+                <p class="card-sub">选择一张清晰商品图，系统会自动完成后续生成。</p>
               </div>
               <span class="badge" id="uploadBadge">未上传</span>
             </div>
@@ -787,12 +785,12 @@
               <input class="file-input" id="fileInput" type="file" accept="image/*" />
               <span class="drop-inner">
                 <strong>点击或拖拽商品图</strong>
-                <span>包装、餐品、美妆、服饰、家居都可以。我们会自动生成卖点和视频脚本。</span>
+                <span>支持包装、餐品、美妆、服饰、家居等商品图。上传后自动进入视频生成流程。</span>
               </span>
             </label>
 
             <div class="style-picks">
-              <div class="card-sub">选择一个气质，其他无需填写</div>
+              <div class="card-sub">选择视频风格</div>
               <div class="style-grid" id="styleGrid">
                 <button class="style-chip active" data-style="高级质感">高级质感</button>
                 <button class="style-chip" data-style="种草安利">种草安利</button>
@@ -801,7 +799,7 @@
               </div>
             </div>
 
-            <button class="primary-btn" id="generateBtn">生成我的营销视频</button>
+            <button class="primary-btn" id="generateBtn">开始生成视频</button>
           </section>
 
           <section class="preview-card">
@@ -811,7 +809,7 @@
                 <div class="safe-area"></div>
                 <div class="screen-copy">
                   <strong id="headline">让商品第一眼就有想买的理由。</strong>
-                  <span id="subline">上传后自动生成镜头与字幕</span>
+                  <span id="subline">上传后生成镜头、字幕与成片预览</span>
                 </div>
               </div>
               <div class="player">
@@ -823,26 +821,26 @@
 
             <div class="auto-panel">
               <div>
-                <h2 class="card-title">自动完成中间步骤</h2>
-                <p class="card-sub">C 端用户不需要理解分镜、卖点和 CTA。系统只把关键结果展示出来。</p>
+                <h2 class="card-title">生成流程</h2>
+                <p class="card-sub">上传后自动完成商品分析、内容生成、视频制作与结果验收。</p>
               </div>
-              <div class="skill-chip" id="skillChip">营销带货 skill · 待调用</div>
+              <div class="skill-chip" id="skillChip">商品营销引擎 · 待启动</div>
               <div class="auto-list">
                 <div class="auto-item">
                   <div class="auto-icon">1</div>
-                  <div><strong>识别商品气质</strong><span id="autoProduct">等待商品图，识别品类、外观和可见卖点。</span></div>
+                  <div><strong>理解商品信息</strong><span id="autoProduct">等待商品图上传，识别品类、外观与适用场景。</span></div>
                 </div>
                 <div class="auto-item">
                   <div class="auto-icon">2</div>
-                  <div><strong>生成短片故事</strong><span id="autoStory">自动选择钩子、镜头节奏、字幕和音乐方向。</span></div>
+                  <div><strong>规划视频内容</strong><span id="autoStory">生成视频结构、镜头节奏、字幕与风格方向。</span></div>
                 </div>
                 <div class="auto-item">
                   <div class="auto-icon">3</div>
-                  <div><strong>校验可投放感</strong><span id="autoCheck">确保商品露出、字幕安全区和结尾行动引导。</span></div>
+                  <div><strong>检查成片质量</strong><span id="autoCheck">校验商品露出、字幕安全区和结尾行动引导。</span></div>
                 </div>
                 <div class="auto-item" id="skillStep">
                   <div class="auto-icon">4</div>
-                  <div><strong>调用营销带货 skill</strong><span id="autoSkill">等待生成后，调用脚本、视频生成和尾帧验收链路。</span></div>
+                  <div><strong>生成商品视频</strong><span id="autoSkill">准备生成内容结构、视频画面并完成结果验收。</span></div>
                 </div>
               </div>
               <div class="progress-wrap">
@@ -858,17 +856,17 @@
       </section>
 
       <section class="journey">
-        <div class="journey-step"><strong>上传</strong><span>用户只提供商品图，不需要先填商品名或卖点。</span></div>
-        <div class="journey-step"><strong>理解</strong><span>系统自动识别品类、使用场景、视觉记忆点和购买阻力。</span></div>
-        <div class="journey-step"><strong>生成</strong><span>自动写脚本、定镜头、配字幕、做 9:16 竖版视频。</span></div>
-        <div class="journey-step"><strong>交付</strong><span>输出可下载、可分享、可继续生成同款变体的作品。</span></div>
+        <div class="journey-step"><strong>上传</strong><span>从商品图开始，无需提前整理内容和营销重点。</span></div>
+        <div class="journey-step"><strong>分析</strong><span>识别商品特征、使用场景与适合表达的营销重点。</span></div>
+        <div class="journey-step"><strong>成片</strong><span>自动完成内容结构、镜头、字幕与 9:16 竖版视频生成。</span></div>
+        <div class="journey-step"><strong>交付</strong><span>生成可预览、可下载、可分享的商品视频结果。</span></div>
       </section>
 
       <section class="result-card" id="resultCard">
         <div class="result-head">
           <div>
-            <h2 class="card-title">作品交付</h2>
-            <p class="card-sub" id="resultText">生成完成后，这里会直接加载视频预览，并提供下载、分享和同款变体。</p>
+            <h2 class="card-title">视频结果</h2>
+            <p class="card-sub" id="resultText">生成完成后，系统会在此加载视频预览，并提供下载、分享和变体生成。</p>
           </div>
           <span class="badge" id="resultBadge">未生成</span>
         </div>
@@ -877,9 +875,9 @@
             <source id="resultVideoSource" src="" type="video/mp4" />
           </video>
           <div class="result-video-copy">
-            <strong>预览视频已加载</strong>
-            <span>主流 Web 端生成产品会在结果区直接呈现可播放视频。这里保留播放器控件，用户可以先看结果，再下载或生成同款变体。</span>
-            <span id="resultMeta">营销带货 skill 输出 · 商品尾帧已验收</span>
+            <strong>视频预览已就绪</strong>
+            <span>你可以先播放确认成片效果，再下载视频、复制分享链接，或基于当前结果继续生成变体。</span>
+            <span id="resultMeta">商品营销引擎输出 · 结果已通过基础验收</span>
           </div>
         </div>
         <div class="result-actions">
@@ -954,19 +952,19 @@
       els.previewImage.hidden = false;
       els.screen.classList.add("uploaded");
       els.uploadBadge.textContent = "已上传";
-      els.headline.textContent = "把普通商品图，变成高级短片开场。";
+      els.headline.textContent = "商品亮点正在进入视频叙事。";
       els.subline.textContent = `${state.style} · 15 秒竖版`;
-      els.autoProduct.textContent = "已识别商品主体、画面质感和可用于镜头的视觉记忆点。";
-      els.autoStory.textContent = `将按“${state.style}”生成钩子、字幕、音乐和商品尾帧。`;
-      els.autoCheck.textContent = "准备检查商品露出、字幕安全区和结尾转化动作。";
-      els.autoSkill.textContent = "营销带货 skill 已准备接收商品图和风格偏好。";
-      els.skillChip.textContent = "营销带货 skill · 已就绪";
+      els.autoProduct.textContent = "已识别商品主体、画面质感和适合表达的营销重点。";
+      els.autoStory.textContent = `将按“${state.style}”生成视频结构、字幕与镜头节奏。`;
+      els.autoCheck.textContent = "准备校验商品露出、字幕安全区和结尾行动引导。";
+      els.autoSkill.textContent = "商品营销引擎已就绪，准备生成视频结果。";
+      els.skillChip.textContent = "商品营销引擎 · 已就绪";
       toast(uploadedMessage);
     }
 
     function handleFile(file) {
       if (!file) return;
-      useImage(URL.createObjectURL(file), "商品图已读取，可以一键生成。");
+      useImage(URL.createObjectURL(file), "商品图已上传，可以开始生成。");
     }
 
     function setProgress(value, label) {
@@ -981,7 +979,7 @@
       if (state.generating) return;
       if (!state.uploaded) {
         useDemo();
-        toast("已先放入示例商品图，你也可以替换成自己的商品。");
+        toast("已载入示例商品图，你也可以替换为自己的商品。");
       }
       state.generating = true;
       state.generated = false;
@@ -991,16 +989,16 @@
       els.resultVideoSource.src = "";
       els.resultVideo.load();
       els.skillStep.classList.add("active");
-      els.skillChip.textContent = "营销带货 skill · 调用中";
-      els.autoSkill.textContent = "正在调用营销带货 skill：商品理解、卖点转化、脚本生成、视频生成与尾帧验收。";
+      els.skillChip.textContent = "商品营销引擎 · 生成中";
+      els.autoSkill.textContent = "正在执行商品理解、营销重点提炼、视频生成与结果验收。";
       els.resultBadge.textContent = "生成中";
-      els.resultText.textContent = "正在调用营销带货 skill 生成可预览的视频结果。";
-      els.headline.textContent = "正在为商品寻找最动人的购买理由。";
-      els.subline.textContent = "AI 正在生成镜头、字幕与结尾 CTA";
+      els.resultText.textContent = "正在生成视频结果，完成后将自动加载预览。";
+      els.headline.textContent = "正在生成商品视频。";
+      els.subline.textContent = "系统正在生成镜头、字幕与结尾引导";
       clearInterval(state.timer);
       state.timer = setInterval(() => {
         const next = state.progress + Math.ceil(Math.random() * 13);
-        const label = next < 30 ? "正在提炼卖点" : next < 58 ? "营销带货 skill 正在生成脚本" : next < 82 ? "Hidream 多模态生成视频" : next < 96 ? "正在校验商品尾帧" : "正在加载预览视频";
+        const label = next < 30 ? "正在分析商品信息" : next < 58 ? "正在生成内容结构" : next < 82 ? "正在生成视频画面" : next < 96 ? "正在校验成片质量" : "正在加载视频预览";
         setProgress(next, label);
         if (state.progress >= 100) finish();
       }, 520);
@@ -1013,20 +1011,20 @@
       setProgress(100, "视频已生成");
       els.timeLabel.textContent = "0:15";
       els.resultBadge.textContent = "已生成";
-      els.resultText.textContent = "你的营销短片已就绪，结果区已直接加载视频预览。";
+      els.resultText.textContent = "视频已生成，预览已自动加载。";
       els.resultCard.classList.add("ready");
       els.resultVideoSource.src = previewVideoUrl;
       els.resultVideo.load();
       els.resultVideo.play().catch(() => {});
-      els.skillChip.textContent = "营销带货 skill · 已完成";
-      els.autoSkill.textContent = "营销带货 skill 已完成脚本生成、视频生成和尾帧验收，结果视频已加载。";
+      els.skillChip.textContent = "商品营销引擎 · 已完成";
+      els.autoSkill.textContent = "视频生成与结果验收已完成，预览已加载。";
       els.headline.textContent = state.style === "限时转化" ? "错过这一刻，可能就少一次下单。" : "第一眼的质感，就是下单的理由。";
-      els.subline.textContent = `${state.style} · 商品尾帧已校验`;
-      toast("营销视频已生成。");
+      els.subline.textContent = `${state.style} · 结果已通过基础验收`;
+      toast("视频已生成，预览已加载。");
     }
 
     function useDemo() {
-      useImage("https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=82", "示例商品已载入。");
+      useImage("https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=82", "示例商品图已载入。");
     }
 
     document.getElementById("topCreateBtn").addEventListener("click", scrollToCreate);
@@ -1038,14 +1036,14 @@
       scrollToCreate();
       useDemo();
     });
-    document.getElementById("examplesBtn").addEventListener("click", () => toast("示例库会展示美妆、餐饮、服饰和家居短片。"));
-    document.getElementById("historyBtn").addEventListener("click", () => toast("作品库已预留，后续可接账号系统。"));
+    document.getElementById("examplesBtn").addEventListener("click", () => toast("案例灵感将展示美妆、餐饮、服饰和家居视频。"));
+    document.getElementById("historyBtn").addEventListener("click", () => toast("登录后可查看历史作品。"));
     document.getElementById("generateBtn").addEventListener("click", generate);
     document.getElementById("playBtn").addEventListener("click", () => toast(state.generated ? "正在播放生成预览。" : "生成完成后可播放完整视频。"));
-    document.getElementById("downloadBtn").addEventListener("click", () => toast(state.generated ? "已准备下载模拟 MP4。" : "请先生成视频。"));
+    document.getElementById("downloadBtn").addEventListener("click", () => toast(state.generated ? "视频文件已准备好。" : "请先生成视频。"));
     document.getElementById("shareBtn").addEventListener("click", async () => {
       await navigator.clipboard.writeText("https://hidream.example/share/demo").catch(() => {});
-      toast(state.generated ? "分享链接已复制。" : "生成后会复制真实作品链接。");
+      toast(state.generated ? "分享链接已复制。" : "生成完成后即可复制作品链接。");
     });
     document.getElementById("variantBtn").addEventListener("click", () => {
       if (!state.generated) {
@@ -1063,7 +1061,7 @@
       state.style = chip.dataset.style;
       document.querySelectorAll(".style-chip").forEach(item => item.classList.toggle("active", item === chip));
       els.subline.textContent = `${state.style} · 15 秒竖版`;
-      els.autoStory.textContent = `将按“${state.style}”生成钩子、字幕、音乐和商品尾帧。`;
+      els.autoStory.textContent = `将按“${state.style}”生成视频结构、字幕与镜头节奏。`;
     });
 
     els.fileInput.addEventListener("change", event => handleFile(event.target.files[0]));
