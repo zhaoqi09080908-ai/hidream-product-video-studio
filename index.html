@@ -603,20 +603,23 @@
     .result-card {
       width: min(1180px, 100%);
       margin: 0 auto;
-      padding: 18px;
+      padding: 24px;
       display: grid;
-      gap: 14px;
+      gap: 18px;
     }
 
     .result-video-wrap {
       display: none;
-      grid-template-columns: minmax(220px, 360px) 1fr;
-      gap: 16px;
-      align-items: center;
-      padding: 14px;
+      grid-template-columns: minmax(300px, 390px) minmax(360px, 1fr);
+      gap: clamp(20px, 3vw, 34px);
+      align-items: stretch;
+      padding: clamp(18px, 3vw, 28px);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      background: rgba(255, 250, 242, 0.62);
+      background:
+        linear-gradient(135deg, rgba(32, 149, 255, 0.08), transparent 34%),
+        linear-gradient(315deg, rgba(184, 132, 47, 0.12), transparent 36%),
+        rgba(255, 250, 242, 0.72);
     }
 
     .result-card.ready .result-video-wrap {
@@ -624,21 +627,24 @@
     }
 
     .result-video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: var(--radius);
+      width: min(100%, 360px);
+      aspect-ratio: 9 / 16;
+      justify-self: center;
+      border-radius: 24px;
+      border: 10px solid #17120e;
       background: #12100e;
       object-fit: cover;
-      box-shadow: 0 18px 42px rgba(26, 19, 14, 0.18);
+      box-shadow: 0 28px 70px rgba(26, 19, 14, 0.28);
     }
 
     .result-video-copy {
       display: grid;
-      gap: 9px;
+      align-content: center;
+      gap: 14px;
     }
 
     .result-video-copy strong {
-      font-size: 18px;
+      font-size: clamp(24px, 2vw, 34px);
       line-height: 1.35;
     }
 
@@ -646,6 +652,34 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    .result-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .result-metric {
+      min-height: 86px;
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(255, 250, 242, 0.72);
+      display: grid;
+      align-content: center;
+      gap: 6px;
+    }
+
+    .result-metric b {
+      font-size: 18px;
+    }
+
+    .result-metric span {
+      margin: 0;
+      font-size: 12px;
+      line-height: 1.35;
     }
 
     .result-head {
@@ -659,6 +693,11 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
+    }
+
+    .result-card.ready .result-actions .soft-btn {
+      min-height: 48px;
+      background: rgba(255, 250, 242, 0.88);
     }
 
     .toast {
@@ -729,6 +768,7 @@
       .style-grid,
       .journey,
       .result-actions,
+      .result-metrics,
       .result-video-wrap {
         grid-template-columns: 1fr;
       }
@@ -878,6 +918,11 @@
             <strong>视频预览已就绪</strong>
             <span>你可以先播放确认成片效果，再下载视频、复制分享链接，或基于当前结果继续生成变体。</span>
             <span id="resultMeta">商品营销引擎输出 · 结果已通过基础验收</span>
+            <div class="result-metrics">
+              <div class="result-metric"><b>9:16</b><span>竖版视频比例</span></div>
+              <div class="result-metric"><b>15s</b><span>适合短视频投放</span></div>
+              <div class="result-metric"><b>已验收</b><span>商品露出与字幕安全区</span></div>
+            </div>
           </div>
         </div>
         <div class="result-actions">
